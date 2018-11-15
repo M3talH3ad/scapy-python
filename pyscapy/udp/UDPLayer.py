@@ -1,7 +1,7 @@
-from scapy.all import TCP
+from scapy.all import UDP
 import codecs
 
-class TCPLayer(object):
+class UDPLayer(object):
 	"""docstring for TCPLayer"""
 	def __init__(self, arguments={}):
 		# super(IPLayer, self).__init__()
@@ -10,37 +10,24 @@ class TCPLayer(object):
 		self.arguments = arguments
 
 	def make(self):
-		self.packet = TCP()
+		self.packet = UDP()
 		for param in self.arguments:
 			if not hasattr(self.packet, param): continue 
 			setattr(self.packet, param , self.arguments[param])
-		return self.packet
+		return self
 
-	def update_packet(self, arguments={}):
+	def updatePacket(self, arguments={}):
 		if not isinstance(arguments, dict): return "Please provide a dictionay"
 		for param in arguments:
 			if not hasattr(self.packet, param): continue
 			setattr(self.packet, param , arguments[param])
+		return self
 
-	# def get_src_ip(self):
-	# 	return self.packet.src
-
-	# def get_dest_ip(self):
-	# 	return self.packet.dest
-
-	# def add_or_update_src_ip(self, src):
-	# 	self.packet.src = src
-
-	# def add_or_update_dest_ip(self, dest):
-	# 	self.packet.dest = dest
-
-	def get_packet(self):
+	def getPacket(self):
 		return self.packet
 
 	def show(self):
-		self.packet.show()
+		return self.packet.show()
 
-a = TCPLayer({'ttl': 90})
-a.make()
-# a.update_packet({'ttl': 909})
-print(a.show())
+	def _getUDP(self):
+		return UDP()
